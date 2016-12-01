@@ -8,11 +8,15 @@ export class Person {
     private direction: string;
     private x: number;
     private y: number;
+    private visited: string[];
+    private hasVisitedSameLocationTwice: boolean;
 
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
         this.direction = 'N';
+        this.hasVisitedSameLocationTwice = false;
+        this.visited = [];
     }
 
     public turn(direction: string): Person {
@@ -27,26 +31,43 @@ export class Person {
         return this;
     }
 
+    private N() {
+        this.y += 1;
+    }
+
+    private S() {
+        this.y -= 1;
+    }
+
+    private E() {
+        this.x += 1;
+    }
+
+    private W() {
+        this.x -= 1;
+    }
+
     public move(distance: number): Person {
-        switch (this.direction) {
-            case 'N':
-                this.y += distance;
+        if (this.hasVisitedSameLocationTwice) {
+            return this;
+        }
+        for (let i = 1; i <= distance; i++) {
+            this[this.direction]();
+            if (this.visited.indexOf(this.x + ':' + this.y) > -1) {
+                this.hasVisitedSameLocationTwice = true;
                 break;
-            case 'S':
-                this.y -= distance;
-                break;
-            case 'W':
-                this.x -= distance;
-                break;
-            case 'E':
-                this.x += distance;
-                break;
+            }
+            this.visited.push(this.x + ':' + this.y);
         }
         return this;
     }
 
     public hasTravelled(): number {
         return Math.abs(this.x) + Math.abs(this.y);
+    }
+
+    public hasVisitedSameLocation(): boolean {
+        return this.hasVisitedSameLocationTwice;
     }
 }
 
@@ -57,6 +78,9 @@ export function movePerson(rawDirections: string): number {
         direction = __.trim(direction);
         let distance: number = parseInt(direction.substring(1), 10);
         person.turn(direction[0]).move(distance);
+        if (person.hasVisitedSameLocation()) {
+            return;
+        }
     });
     return person.hasTravelled();
 }
