@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "outDir": "./bin",
+    "mapRoot": "./bin",
+    "rootDir": "./",
+    "watch": false
+  },
+  "exclude": [
+    "node_modules",
+    ".vscode",
+    "bin",
+    "build",
+    "buildtmp"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "AdventOfNode2016",
+  "description": "Advent of Code 2016, in Node/Typescript",
+  "version": "1.0.0",
+  "main": "bin/main.js",
+  "private": true,
+  "scripts": {
+    "lint": "./node_modules/.bin/tslint src/*",
+    "transpile": "./node_modules/.bin/tsc -p .",
+    "build": "npm -s run lint && npm -s run transpile",
+    "test": "npm -s run build && npm -s run test:unit",
+    "test:unit": "./node_modules/.bin/mocha bin/test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liquorvicar"
+  },
+  "dependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/lodash": "^4.14.41",
+    "@types/mocha": "^2.2.33",
+    "@types/node": "0.0.2",
+    "chai": "^3.5.0",
+    "lodash": "^4.17.2",
+    "mocha": "^3.2.0",
+    "typescript": "^2.0.10"
+  }
+}
