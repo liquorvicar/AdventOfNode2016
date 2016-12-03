@@ -9,6 +9,7 @@ let lineReader = createInterface({
 });
 
 let count = 0;
+let triangles: number[][] = [];
 lineReader.on('line', function (inputLine) {
     let strings = inputLine.match(/([0-9]+)/g);
     let triangle = strings.filter((side) => {
@@ -16,8 +17,14 @@ lineReader.on('line', function (inputLine) {
     }).map((side) => {
         return parseInt(side, 10);
     });
-    if (isTriangle(triangle)) {
-        count++;
-        console.log(count);
+    triangles.push(triangle);
+    if (triangles.length == 3) {
+        for (let i = 0; i < 3; i++) {
+            if (isTriangle([triangles[0][i], triangles[1][i], triangles[2][i]])) {
+                count++;
+            }
+        }
+        triangles = [];
     }
+    console.log(count);
 });
