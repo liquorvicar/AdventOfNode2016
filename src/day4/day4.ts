@@ -1,5 +1,7 @@
 'use strict';
 
+import * as __ from "lodash";
+
 interface LetterCount {
     letter: string;
     count: number;
@@ -49,3 +51,23 @@ export const validateRoom = (room: string): number => {
     }, "");
     return frequentLetters == checksum ? sector : 0;
 };
+
+export const decryptName = (encrypted: string): string => {
+    const allLetters = "abcdefghijklmnopqrstuvwxyz";
+    let regex = /^(([a-z]+-)+)([0-9]+)\[([a-z]+)\]$/g;
+    let parts = regex.exec(encrypted);
+    let stringsToCount = parts[1];
+    const sector = parseInt(parts[3], 10);
+    stringsToCount = __.trim(stringsToCount, "-");
+    let name = "";
+    for (let letter of stringsToCount) {
+        if (letter == "-") {
+            name += " ";
+            continue;
+        }
+        let i = allLetters.indexOf(letter);
+        i = (i + sector) % 26;
+        name += allLetters[i];
+    }
+    return name;
+}

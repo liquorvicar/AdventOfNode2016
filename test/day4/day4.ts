@@ -1,7 +1,7 @@
 'use strict';
 
 import {expect} from "chai";
-import {validateRoom} from "../../src/day4/day4";
+import {validateRoom, decryptName} from "../../src/day4/day4";
 
 describe('Room validator', () => {
 
@@ -16,6 +16,15 @@ describe('Room validator', () => {
         it(`should validate ${example.room} as ` + (example.sector ? "" : "not ") + 'true', () => {
             expect(validateRoom(example.room)).to.equal(example.sector);
         });
+    });
+
+});
+
+describe('Decrypt name', () => {
+
+    it('should decrypt a name', () => {
+        const decryptedName = decryptName('qzmt-zixmtkozy-ivhz-343[abcde]');
+        expect(decryptedName).to.equal('very encrypted name');
     });
 
 });
