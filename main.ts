@@ -3,14 +3,18 @@
 import {findNextPasswordChar} from "./src/day5/day5";
 
 const prefix = 'uqwqemis';
-let password = '';
+let password = [];
 let offset = 0;
+let charsFound = 0;
 
-for (let i = 0; i < 8; i++) {
+while (charsFound < 8) {
     let result = findNextPasswordChar(prefix, offset);
-    password += result.char;
+    if (!password[result.position]) {
+        password[result.position] = result.char;
+        charsFound++;
+    }
     offset = result.offset + 1;
-    console.log(i);
+    console.log(charsFound);
 }
 
-console.log(password);
+console.log(password.join(''));
