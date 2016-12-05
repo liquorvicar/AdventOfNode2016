@@ -1,20 +1,16 @@
 'use strict';
 
-import {validateRoom, decryptName} from "./src/day4/day4";
-import {createInterface} from "readline";
-import {createReadStream} from "fs";
+import {findNextPasswordChar} from "./src/day5/day5";
 
-let lineReader = createInterface({
-    input: createReadStream('./src/day4/data.txt')
-});
+const prefix = 'uqwqemis';
+let password = '';
+let offset = 0;
 
-let sum = 0;
-lineReader.on('line', function (inputLine) {
-    let sector = validateRoom(inputLine);
-    if (sector > 0) {
-        let name = decryptName(inputLine);
-        if (name.indexOf('north') > -1) {
-            console.log(name, sector);
-        }
-    }
-});
+for (let i = 0; i < 8; i++) {
+    let result = findNextPasswordChar(prefix, offset);
+    password += result.char;
+    offset = result.offset + 1;
+    console.log(i);
+}
+
+console.log(password);
