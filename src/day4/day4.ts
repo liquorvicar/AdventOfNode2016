@@ -13,8 +13,19 @@ export const validateRoom = (room: string): number => {
     let stringsToCount = parts[1];
     const sector = parseInt(parts[3], 10);
     let checksum = parts[4];
+    let count = countLettersInString(stringsToCount);
+    let frequentLetters = count.reduce((checksum, countItem, i) => {
+        if (i <= 4) {
+            checksum += countItem.letter;
+        }
+        return checksum;
+    }, "");
+    return frequentLetters == checksum ? sector : 0;
+};
+
+export const countLettersInString = (stringToCount: string): LetterCount[] => {
     let count: LetterCount[] = [];
-    for (let letter of stringsToCount) {
+    for (let letter of stringToCount) {
         if (letter == "-") {
             continue;
         }
@@ -43,13 +54,7 @@ export const validateRoom = (room: string): number => {
         }
         return 1;
     });
-    let frequentLetters = count.reduce((checksum, countItem, i) => {
-        if (i <= 4) {
-            checksum += countItem.letter;
-        }
-        return checksum;
-    }, "");
-    return frequentLetters == checksum ? sector : 0;
+    return count;
 };
 
 export const decryptName = (encrypted: string): string => {

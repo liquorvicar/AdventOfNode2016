@@ -1,20 +1,15 @@
 'use strict';
 
-import {findNextPasswordChar} from "./src/day5/day5";
+import {recoverMessage} from "./src/day6/day6";
+import {createInterface} from "readline";
+import {createReadStream} from "fs";
 
-const prefix = 'uqwqemis';
-let password = [];
-let offset = 0;
-let charsFound = 0;
-
-while (charsFound < 8) {
-    let result = findNextPasswordChar(prefix, offset);
-    if (!password[result.position]) {
-        password[result.position] = result.char;
-        charsFound++;
-    }
-    offset = result.offset + 1;
-    console.log(charsFound);
-}
-
-console.log(password.join(''));
+let lineReader = createInterface({
+    input: createReadStream('./src/day6/data.txt')
+});
+let messages: string[] = [];
+lineReader.on('line', function (inputLine) {
+    messages.push(inputLine);
+}).on('close', function () {
+    console.log(recoverMessage(messages));
+});
