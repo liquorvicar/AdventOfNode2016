@@ -1,6 +1,6 @@
 'use strict';
 
-import {recoverMessage} from "./src/day6/day6";
+import {recoverMessageModified} from "./src/day6/day6";
 import {createInterface} from "readline";
 import {createReadStream} from "fs";
 
@@ -11,5 +11,5 @@ let messages: string[] = [];
 lineReader.on('line', function (inputLine) {
     messages.push(inputLine);
 }).on('close', function () {
-    console.log(recoverMessage(messages));
+    console.log(recoverMessageModified(messages));
 });
