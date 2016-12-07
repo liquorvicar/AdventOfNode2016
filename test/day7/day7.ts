@@ -1,7 +1,7 @@
 'use strict';
 
 import {expect} from "chai";
-import {containsABBA, findHypernets, supportsTLS, parseIP} from "../../src/day7/day7";
+import {containsABBA, findHypernets, supportsTLS, parseIP, findABAs, supportsSSL} from "../../src/day7/day7";
 
 describe('String contains ABBA', () => {
 
@@ -74,4 +74,35 @@ describe('Parse IPs', () => {
         });
     })
 
+});
+
+describe('Find ABAs in string', () => {
+    const examples = [
+        { string: "abba", aba: []},
+        { string: "aba", aba: ["bab"]},
+        { string: "abcde", aba: []},
+        { string: "abada", aba: ["aba", "ada"]},
+    ];
+
+    examples.forEach((example) => {
+        it(`should find the ABAs in string ${example.string}`, function () {
+            expect(findABAs(example.string).length).to.deep.equal(example.aba.length);
+        })
+    })
+});
+
+describe('IP supports ssl', () => {
+    const examples = [
+        { ip: "aba[bab]xyz", supports: true },
+        { ip: "xyx[xyx]xyx", supports: false },
+        { ip: "aaa[kek]eke", supports: true },
+        { ip: "zazbz[bzb]cdb", supports: true },
+    ];
+
+    examples.forEach((example) => {
+        it(`should check if the ip ${example.ip} supports SSL`, function () {
+            const ip = parseIP(example.ip);
+            expect(supportsSSL(ip)).to.equal(example.supports);
+        });
+    })
 });

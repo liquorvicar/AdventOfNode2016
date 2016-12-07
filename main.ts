@@ -1,18 +1,19 @@
 'use strict';
 
-import {supportsTLS} from "./src/day7/day7";
+import {supportsSSL, parseIP} from "./src/day7/day7";
 import {createInterface} from "readline";
 import {createReadStream} from "fs";
 
 let lineReader = createInterface({
     input: createReadStream('./src/day7/data.txt')
 });
-let numSupportsTLS = 0;
+let numSupportsSSL = 0;
 lineReader.on('line', function (inputLine) {
-    if (supportsTLS(inputLine)) {
-        numSupportsTLS++;
+    let ip = parseIP(inputLine);
+    if (supportsSSL(ip)) {
+        numSupportsSSL++;
     }
-    console.log(numSupportsTLS);
+    console.log(numSupportsSSL);
 }).on('close', function () {
-    console.log(numSupportsTLS);
+    console.log(numSupportsSSL);
 });
