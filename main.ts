@@ -1,15 +1,18 @@
 'use strict';
 
-import {recoverMessageModified} from "./src/day6/day6";
+import {supportsTLS} from "./src/day7/day7";
 import {createInterface} from "readline";
 import {createReadStream} from "fs";
 
 let lineReader = createInterface({
-    input: createReadStream('./src/day6/data.txt')
+    input: createReadStream('./src/day7/data.txt')
 });
-let messages: string[] = [];
+let numSupportsTLS = 0;
 lineReader.on('line', function (inputLine) {
-    messages.push(inputLine);
+    if (supportsTLS(inputLine)) {
+        numSupportsTLS++;
+    }
+    console.log(numSupportsTLS);
 }).on('close', function () {
-    console.log(recoverMessageModified(messages));
+    console.log(numSupportsTLS);
 });
