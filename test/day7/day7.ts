@@ -1,7 +1,7 @@
 'use strict';
 
 import {expect} from "chai";
-import {containsABBA, findHypernets, supportsTLS} from "../../src/day7/day7";
+import {containsABBA, findHypernets, supportsTLS, parseIP} from "../../src/day7/day7";
 
 describe('String contains ABBA', () => {
 
@@ -57,4 +57,21 @@ describe('IP supports TLS', () => {
             expect(supportsTLS(example.ip)).to.equal(example.tls);
         })
     })
+});
+
+describe('Parse IPs', () => {
+    const examples = [
+        { ip: "abba[mnop]qrst", supernets: "abba.qrst", hypernets: "mnop" },
+        { ip: "abba[mnop]q[rst]xyz", supernets: "abba.q.xyz", hypernets: "mnop.rst"  },
+        { ip: "aaaa[qwer]", supernets: "aaaa", hypernets: "qwer"  },
+    ];
+
+    examples.forEach((example) => {
+        it(`should be able to parse ${example.ip}`, function () {
+        const parts = parseIP(example.ip);
+        expect(parts.supernets).to.equal(example.supernets);
+        expect(parts.hypernets).to.equal(example.hypernets);
+        });
+    })
+
 });

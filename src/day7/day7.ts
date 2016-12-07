@@ -1,5 +1,10 @@
 'use strict';
 
+export interface IPParts {
+    supernets: string;
+    hypernets: string;
+}
+
 export const containsABBA = (input: string): boolean => {
     for (let i = 0; i <= input.length - 4; i++) {
         if (input[i] === input[i+3] && input[i+1] === input[i+2] && input[i] !== input[i+1]) {
@@ -16,4 +21,25 @@ export const findHypernets = (input: string): string[] => {
 
 export const supportsTLS = (ip: string): boolean => {
     return (containsABBA(ip) && findHypernets(ip).every((hypernet) => !containsABBA(hypernet)));
+};
+
+export const parseIP = (ip: string): IPParts => {
+    let supernets: string[] = [];
+    let hypernets: string[] = [];
+    let currentNet: string = "";
+    for (let letter of ip) {
+        if (letter == '[') {
+            supernets.push(currentNet);
+            currentNet = "";
+        } else if (letter == ']') {
+            hypernets.push(currentNet);
+            currentNet = "";
+        } else {
+            currentNet += letter;
+        }
+    }
+    if (currentNet.length > 0) {
+        supernets.push(currentNet);
+    }
+    return <IPParts>{ supernets: supernets.join('.'), hypernets: hypernets.join('.') };
 };
