@@ -1,7 +1,7 @@
 'use strict';
 
-export const decompress = (input: string): string => {
-    let decompressed = "";
+export const decompress = (input: string): number => {
+    let decompressed = 0;
     let marker = "";
     let inMarker = false;
     let i = 0;
@@ -11,7 +11,7 @@ export const decompress = (input: string): string => {
             if (letter == "(") {
                 inMarker = true;
             } else {
-                decompressed += letter;
+                decompressed += 1;
             }
         } else {
             if (letter == ")") {
@@ -22,9 +22,7 @@ export const decompress = (input: string): string => {
                 for (let s = 0; s < length; s++) {
                     sequence += input[i+1+s];
                 }
-                for (let r = 0; r < repeat; r++) {
-                    decompressed += sequence;
-                }
+                decompressed += (decompress(sequence) * repeat);
                 marker = "";
                 inMarker = false;
                 i = i + length;

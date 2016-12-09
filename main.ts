@@ -9,5 +9,5 @@ let lineReader = createInterface({
 });
 lineReader.on('line', function (inputLine) {
     let decompressed = decompress(inputLine);
-    console.log(decompressed.length);
+    console.log(decompressed);
 });
