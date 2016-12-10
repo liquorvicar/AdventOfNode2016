@@ -1,13 +1,17 @@
 'use strict';
 
-import {decompress} from "./src/day9/day9";
+import {parseInstructions, processInstructions} from "./src/day10/day10";
 import {createInterface} from "readline";
 import {createReadStream} from "fs";
 
 let lineReader = createInterface({
-    input: createReadStream('./src/day9/data.txt')
+    input: createReadStream('./src/day10/data.txt')
 });
+let rawInstructions: string[] = [];
 lineReader.on('line', function (inputLine) {
-    let decompressed = decompress(inputLine);
-    console.log(decompressed);
+    rawInstructions.push(inputLine)
+}).on('close', function () {
+    let instructions = parseInstructions(rawInstructions);
+    let result = processInstructions(instructions, [17, 61]);
+    console.log(result.bot);
 });
