@@ -13,5 +13,5 @@ lineReader.on('line', function (inputLine) {
 }).on('close', function () {
     let instructions = parseInstructions(rawInstructions);
     let result = processInstructions(instructions, [17, 61]);
-    console.log(result.bot);
+    console.log(result.bins[0][0] * result.bins[1][0] * result.bins[2][0]);
 });
