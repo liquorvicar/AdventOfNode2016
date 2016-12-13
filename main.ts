@@ -1,7 +1,7 @@
 'use strict';
-import {Floorplan, shortestRoute} from "./src/day13/day13";
+import {Floorplan, distinctLocations} from "./src/day13/day13";
 
 let floorplan = new Floorplan(1358);
-let minMoves = shortestRoute({x:1, y:1}, {x:31, y:39}, floorplan, [], 0);
+let locations = distinctLocations({x:1, y:1}, floorplan, [], []);
 
-console.log(minMoves);
+console.log(locations.length);

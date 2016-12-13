@@ -69,3 +69,31 @@ export function shortestRoute(start: Cubicle, destination: Cubicle, floorplan: F
     });
     return minMoves;
 };
+
+export function distinctLocations(start: Cubicle, floorplan: Floorplan, moves: string[], totalMoves: string[]): string[] {
+    if (moves.length === 50) {
+        moves.forEach((move) => {
+            if (totalMoves.indexOf(move) < 0) {
+                totalMoves.push(move);
+            }
+        });
+        return totalMoves;
+    }
+    let nextMoves = floorplan.getNext(start).filter((move) => {
+        return (moves.indexOf(`${move.x}-${move.y}`) < 0);
+    });
+    if (nextMoves.length === 0) {
+        moves.forEach((move) => {
+            if (totalMoves.indexOf(move) < 0) {
+                totalMoves.push(move);
+            }
+        });
+        return totalMoves;
+    }
+    nextMoves.forEach((nextMove) => {
+        let newMoves = JSON.parse(JSON.stringify(moves));
+        newMoves.push(`${nextMove.x}-${nextMove.y}`);
+        totalMoves = distinctLocations(nextMove, floorplan, newMoves, totalMoves);
+    });
+    return totalMoves;
+};
