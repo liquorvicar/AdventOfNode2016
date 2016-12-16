@@ -31,11 +31,20 @@ export class KeyGenerator {
         let hashInput: string;
         this.salt = salt;
         for (let i = 0; i <= 1000; i++) {
-            hashInput = salt + i;
-            let hash = crypto.createHash('md5').update(hashInput).digest("hex");
-            this.hashes.push(hash);
+            this.generateHash(i);
         }
     }
+
+    private generateHash(index: number) {
+        let hashInput = this.salt + index;
+        let hash = crypto.createHash('md5').update(hashInput).digest("hex");
+        for (let i = 0; i < 2016; i++) {
+            hash = crypto.createHash('md5').update(hash.toLowerCase()).digest("hex");
+        }
+        this.hashes.push(hash);
+
+    }
+
     public findNthKey(numKeys: number): number {
         let key: number;
         let startingPoint = 0;
@@ -50,13 +59,9 @@ export class KeyGenerator {
     public findKey(startingIndex: number): number {
         let keyFound = false;
         let i = startingIndex;
-        let hashInput: string;
-        let hash: string;
         while (!keyFound) {
             let char = containsTriple(this.hashes[i]);
-            hashInput = this.salt + this.hashes.length;
-            hash = crypto.createHash('md5').update(hashInput).digest("hex");
-            this.hashes.push(hash);
+            this.generateHash(this.hashes.length);
             if (char !== '') {
                 if (findHashWithFiveChars(i + 1, this.hashes, char)) {
                     return i;

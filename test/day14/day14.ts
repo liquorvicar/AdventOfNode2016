@@ -36,19 +36,14 @@ describe('Key with five chars', function () {
 
 describe('Find key', function () {
 
-    it('should find 39 as the first key', function () {
+    it('should find 10 as the first key', function () {
         let generator = new KeyGenerator('abc');
-        expect(generator.findKey(0)).to.equal(39);
+        expect(generator.findKey(0)).to.equal(10);
     });
 
-    it('should find 92 as the first key after 39', function () {
+    it('should find 22551 as the 64th key', function () {
         let generator = new KeyGenerator('abc');
-        expect(generator.findKey(40)).to.equal(92);
-    });
-
-    it('should find 22728 as the 64th key', function () {
-        let generator = new KeyGenerator('abc');
-        expect(generator.findNthKey(64)).to.equal(22728);
+        expect(generator.findNthKey(64)).to.equal(22551);
     });
 
 });
