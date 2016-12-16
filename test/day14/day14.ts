@@ -1,24 +1,54 @@
 'use strict';
 
 import {expect} from "chai";
-import {containsTriple, findKey} from "../../src/day14/day14";
+import {containsTriple, findHashWithFiveChars, KeyGenerator} from "../../src/day14/day14";
 
 describe('Hash contains triple', function () {
 
-    it('should return empty for index 17', function () {
-        expect(containsTriple('abc', 17)).to.equal('');
+    it('should return empty for abcdef', function () {
+        expect(containsTriple('abcdef')).to.equal('');
     });
 
-    it('should return 8 for index 18', function () {
-        expect(containsTriple('abc', 18)).to.equal('8');
+    it('should return 8 for abc888feee', function () {
+        expect(containsTriple('abc888feee')).to.equal('8');
     });
 
+});
+
+describe('Key with five chars', function () {
+
+    it('should return false if no string found', function () {
+        let strings: string[] = [];
+        for (let i = 0; i < 1000; i++) {
+            strings.push('abcde');
+        }
+        expect(findHashWithFiveChars(0, strings, 'a')).to.equal(false);
+    });
+
+    it('should return true if string is found', function () {
+        let strings: string[] = [];
+        for (let i = 0; i < 1000; i++) {
+            strings.push('abcdeaaaaa');
+        }
+        expect(findHashWithFiveChars(0, strings, 'a')).to.equal(true);
+    });
 });
 
 describe('Find key', function () {
 
     it('should find 39 as the first key', function () {
-        expect(findKey('abc', 0)).to.equal(39);
+        let generator = new KeyGenerator('abc');
+        expect(generator.findKey(0)).to.equal(39);
+    });
+
+    it('should find 92 as the first key after 39', function () {
+        let generator = new KeyGenerator('abc');
+        expect(generator.findKey(40)).to.equal(92);
+    });
+
+    it('should find 22728 as the 64th key', function () {
+        let generator = new KeyGenerator('abc');
+        expect(generator.findNthKey(64)).to.equal(22728);
     });
 
 });

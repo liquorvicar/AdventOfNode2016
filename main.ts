@@ -1,7 +1,6 @@
 'use strict';
-import {Floorplan, distinctLocations} from "./src/day13/day13";
+import {KeyGenerator} from "./src/day14/day14";
 
-let floorplan = new Floorplan(1358);
-let locations = distinctLocations({x:1, y:1}, floorplan, [], []);
+let generator = new KeyGenerator('jlmsuwbz');
 
-console.log(locations.length);
+console.log(generator.findNthKey(64));
