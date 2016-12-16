@@ -9,23 +9,28 @@ export class Disc {
         this.numPositions = numPositions;
     }
 
-    public isAligned(): boolean {
-        return this.position === 0;
+    public isAligned(time: number): boolean {
+        let firstAlignment = this.position === 0 ? this.position : this.numPositions - this.position;
+        if (firstAlignment > time) {
+            return false;
+        }
+        let isAligned = ((time - firstAlignment) % this.numPositions === 0);
+        return isAligned;
     }
 
-    public move(): void {
-        this.position = (this.position + 1) % this.numPositions;
+    public nextAlignment(count: number): number {
+        let firstAlignment = this.position === 0 ? this.position : this.numPositions - this.position;
+        while (firstAlignment < count) {
+            firstAlignment += this.numPositions;
+        }
+        return firstAlignment;
     }
 }
 
 export const pressButton = (discs: Disc[], startTime: number): boolean => {
     let aligned = true;
-    for (let i = 0; i < startTime; i++) {
-        discs.forEach((disc) => disc.move());
-    }
     for (let i = 0; i < discs.length; i++) {
-        discs.forEach((disc) => disc.move());
-        if (!discs[i].isAligned()) {
+        if (!discs[i].isAligned(startTime + i + 1)) {
             aligned = false;
         }
     }
