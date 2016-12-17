@@ -1,4 +1,4 @@
 'use strict';
-import {getChecksum} from "./src/day16/day16";
+import {shortestPath} from "./src/day17/day17";
 
-console.log(getChecksum('00101000101111010', 35651584));
+console.log(shortestPath('qljzarfv'));
