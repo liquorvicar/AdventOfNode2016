@@ -27,13 +27,13 @@ export const findOpenDoors = (room: Room, passcode: string, route: string): stri
     return openDoors;
 };
 
-export const shortestPath = (passcode: string): string => {
-    return findPath({ x:0, y:0 }, passcode, '', '');
+export const findPath = (passcode: string): number => {
+    return longestPath({ x:0, y:0 }, passcode, '', 0);
 };
 
-export const findPath = (room: Room, passcode: string, route: string, shortestPath: string): string => {
-    if (shortestPath.length > 0 && route.length > shortestPath.length) {
-        return shortestPath;
+export const shortestPath = (room: Room, passcode: string, route: string, currentShortest: string): string => {
+    if (currentShortest.length > 0 && route.length > currentShortest.length) {
+        return currentShortest;
     }
     if (room.x === 3 && room.y === 3) {
         return route;
@@ -55,7 +55,33 @@ export const findPath = (room: Room, passcode: string, route: string, shortestPa
                 newRoom.x += 1;
                 break;
         }
-        shortestPath = findPath(newRoom, passcode, route + door, shortestPath);
+        currentShortest = shortestPath(newRoom, passcode, route + door, currentShortest);
     });
-    return shortestPath;
+    return currentShortest;
+};
+
+export const longestPath = (room: Room, passcode: string, route: string, currentLongest: number): number => {
+    if (room.x === 3 && room.y === 3) {
+        return route.length > currentLongest ? route.length : currentLongest;
+    }
+    let doors = findOpenDoors(room, passcode, route);
+    doors.forEach((door) => {
+        let newRoom = JSON.parse(JSON.stringify(room));
+        switch (door) {
+            case 'U':
+                newRoom.y -= 1;
+                break;
+            case 'D':
+                newRoom.y += 1;
+                break;
+            case 'L':
+                newRoom.x -= 1;
+                break;
+            case 'R':
+                newRoom.x += 1;
+                break;
+        }
+        currentLongest = longestPath(newRoom, passcode, route + door, currentLongest);
+    });
+    return currentLongest;
 };

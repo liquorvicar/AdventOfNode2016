@@ -1,7 +1,7 @@
 'use strict';
 
 import {expect} from "chai";
-import {findOpenDoors, shortestPath} from "../../src/day17/day17";
+import {findOpenDoors, shortestPath, longestPath} from "../../src/day17/day17";
 
 describe('Find open doors', function () {
 
@@ -30,15 +30,30 @@ describe('Find open doors', function () {
 describe('Find shortest path', function () {
 
     it('should find the shortest path for ihgpwlah', function () {
-        expect(shortestPath('ihgpwlah')).to.equal('DDRRRD');
+        expect(shortestPath({ x:0, y:0 }, 'ihgpwlah', '', '')).to.equal('DDRRRD');
     });
 
     it('should find the shortest path for kglvqrro', function () {
-        expect(shortestPath('kglvqrro')).to.equal('DDUDRLRRUDRD');
+        expect(shortestPath({ x:0, y:0 }, 'kglvqrro', '', '')).to.equal('DDUDRLRRUDRD');
     });
 
     it('should find the shortest path for ulqzkmiv', function () {
-        expect(shortestPath('ulqzkmiv')).to.equal('DRURDRUDDLLDLUURRDULRLDUUDDDRR');
+        expect(shortestPath({ x:0, y:0 }, 'ulqzkmiv', '', '')).to.equal('DRURDRUDDLLDLUURRDULRLDUUDDDRR');
     });
 
+});
+
+describe('Find longest path', function () {
+
+    it('should find the longest path for ihgpwlah', function () {
+        expect(longestPath({ x:0, y:0 }, 'ihgpwlah', '', 0)).to.equal(370);
+    });
+
+    it('should find the longest path for kglvqrro', function () {
+        expect(longestPath({ x:0, y:0 }, 'kglvqrro', '', 0)).to.equal(492);
+    });
+
+    it('should find the longest path for ulqzkmiv', function () {
+        expect(longestPath({ x:0, y:0 }, 'ulqzkmiv', '', 0)).to.equal(830);
+    });
 });
