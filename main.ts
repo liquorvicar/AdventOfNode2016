@@ -1,4 +1,4 @@
 'use strict';
-import {findPath} from "./src/day17/day17";
+import {countSafe} from "./src/day18/day18";
 
-console.log(findPath('qljzarfv'));
+console.log(countSafe('.^^.^^^..^.^..^.^^.^^^^.^^.^^...^..^...^^^..^^...^..^^^^^^..^.^^^..^.^^^^.^^^.^...^^^.^^.^^^.^.^^.^.', 400000));
