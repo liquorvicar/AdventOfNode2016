@@ -1,4 +1,4 @@
 'use strict';
-import {countSafe} from "./src/day18/day18";
+import {elephantParty} from "./src/day19/day19";
 
-console.log(countSafe('.^^.^^^..^.^..^.^^.^^^^.^^.^^...^..^...^^^..^^...^..^^^^^^..^.^^^..^.^^^^.^^^.^...^^^.^^.^^^.^.^^.^.', 400000));
+console.log(elephantParty(3014603));
