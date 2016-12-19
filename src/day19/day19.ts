@@ -1,32 +1,31 @@
 'use strict';
 
+interface Elf {
+    id: number;
+    presents: number;
+}
+
 export const elephantParty = (numElves: number): number => {
-    let nextElf = 0;
-    let presents: number[] = [];
-    for (let i = 0; i < numElves; i++) {
-        presents.push(1);
+    let thisElf = 0;
+    let presents: Elf[] = [];
+    for (let i = 1; i <= numElves; i++) {
+        presents.push({ id: i, presents: 1 });
     }
-    let finished: boolean;
-    let thisElf: number;
+    let offset: number;
     while (true) {
-        thisElf = nextElf;
-        if (presents[thisElf] === numElves) {
-            return thisElf + 1;
-        }
-        nextElf = (nextElf + 1) % numElves;
-        if (presents[thisElf] === 0) {
-            continue;
-        }
-        finished = false;
-        while (!finished) {
-            if (presents[nextElf] > 0) {
-                presents[thisElf] += presents[nextElf];
-                presents[nextElf] = 0;
-                finished = true;
-            } else {
-                nextElf = (nextElf + 1) % numElves;
+        if (presents[thisElf]) {
+            if (presents[thisElf].presents === numElves) {
+                return presents[thisElf].id;
             }
+            offset = Math.floor(presents.length / 2);
+            let targetElf = (thisElf + offset) % presents.length;
+            presents[thisElf].presents += presents[targetElf].presents;
+            presents = presents.slice(0, targetElf - 1).concat(presents.slice(targetElf + 1));
         }
-        console.log(thisElf);
+        thisElf = (thisElf + 1);
+        if (thisElf > presents.length) {
+            thisElf = 0;
+        }
+        console.log(presents.length);
     }
 };
