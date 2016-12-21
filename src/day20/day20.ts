@@ -5,7 +5,7 @@ interface Rule {
     max: number;
 }
 
-export const findLowestUnblocked = (rawRules: string[]): number => {
+const parseRules = (rawRules: string[]): Rule[] => {
     let rules: Rule[] = [];
     rawRules.forEach((rawRule) => {
         let parts = rawRule.match(/([0-9]+)-([0-9]+)/);
@@ -18,6 +18,11 @@ export const findLowestUnblocked = (rawRules: string[]): number => {
             return 1;
         }
     });
+    return rules;
+};
+
+export const findLowestUnblocked = (rawRules: string[]): number => {
+    let rules: Rule[] = parseRules(rawRules);
     let ip = 0;
     for (let i = 0; i < rules.length; i++) {
         if (rules[i].min > ip) {
@@ -27,4 +32,22 @@ export const findLowestUnblocked = (rawRules: string[]): number => {
         }
     }
     return -1;
+};
+
+export const countAllUnblocked = (rawRules: string[], maxIP: number): number => {
+    let rules: Rule[] = parseRules(rawRules);
+    let count = 0;
+    let ip = 0;
+    for (let i = 0; i < rules.length; i++) {
+        if (rules[i].min > ip) {
+            count += (rules[i].min - ip);
+            ip = rules[i].max + 1;
+            console.log(rules[i], count);
+        } else if (rules[i].max >= ip) {
+            ip = rules[i].max + 1;
+        }
+    }
+    count += (maxIP - ip) + 1;
+    console.log(maxIP, ip, count);
+    return count;
 };
