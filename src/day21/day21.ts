@@ -84,40 +84,47 @@ export const parseSteps = (rawSteps: string[]): any[] => {
         if (rawStep.indexOf('swap position') === 0) {
             parts = rawStep.match(/swap position ([0-9]) with position ([0-9])/);
             steps.push(function (input: string): string {
-                console.log('Swap position', input, parts[1], parts[2]);
                 return swapPosition(input, parseInt(parts[1], 10), parseInt(parts[2], 10));
             })
         } else if (rawStep.indexOf('rotate based') === 0) {
             parts = rawStep.match(/^rotate based on position of letter ([a-z]+)$/);
             steps.push(function (input: string): string {
-                console.log('Rotate on index', input, parts[1]);
                 return rotateOnIndex(input, parts[1]);
             })
         } else if (rawStep.indexOf('swap letter') === 0) {
             parts = rawStep.match(/swap letter ([a-z]) with letter ([a-z])/);
             steps.push(function (input: string): string {
-                console.log('Swap letter', input, parts[1], parts[2]);
                 return swapLetters(input, parts[1], parts[2]);
             })
         } else if (rawStep.indexOf('move position') === 0) {
             parts = rawStep.match(/move position ([0-9]) to position ([0-9])/);
             steps.push(function (input: string): string {
-                console.log('Move position', input, parts[1], parts[2]);
                 return moveLetter(input, parseInt(parts[1], 10), parseInt(parts[2], 10));
             })
         } else if (rawStep.indexOf('reverse positions') === 0) {
             parts = rawStep.match(/reverse positions ([0-9]) through ([0-9])/);
             steps.push(function (input: string): string {
-                console.log('Reverse positions', input, parts[1], parts[2]);
                 return reverseLetters(input, parseInt(parts[1], 10), parseInt(parts[2], 10));
             })
         } else if (rawStep.indexOf('rotate') === 0) {
             parts = rawStep.match(/rotate (right|left) ([0-9]) step/);
             steps.push(function (input: string): string {
-                console.log('Rotate', input, parts[1], parts[2]);
                 return rotate(input, parts[1], parseInt(parts[2], 10));
             })
         }
     });
     return steps;
+};
+
+export const unscramble = (input: string, unscrambled: string, result: string, steps: any[]) => {
+    if (unscrambled.length === 0) {
+        if (transform(input, steps) === result) {
+            console.log(input);
+        }
+        return true;
+    }
+    for (let i = 0; i < unscrambled.length; i++) {
+        unscramble(input + unscrambled[i], unscrambled.replace(unscrambled[i], ''), result, steps);
+    }
+    return true;
 };
