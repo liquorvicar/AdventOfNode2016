@@ -30,6 +30,6 @@ let instructions = [
     'jnz c -5',
 ];
 
-let registers = { next: 0, a: 7, b: 0, c: 0, d: 0 };
+let registers = { next: 0, a: 12, b: 0, c: 0, d: 0 };
 registers = processInstructions(instructions, registers);
 console.log(registers.a);

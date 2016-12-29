@@ -24,7 +24,7 @@ export function processInstructions(instructions: string[], registers: Registers
         let register: string = 'a';
         let offset: number;
         offset = 1;
-        console.log(instruction, registers);
+        // console.log(instruction, registers);
         if (instruction.indexOf('cpy') === 0) {
             let parts = cpyRE.exec(instruction);
             if (parts) {
